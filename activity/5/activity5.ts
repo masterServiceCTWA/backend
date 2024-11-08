@@ -54,7 +54,7 @@ const log3 = () => {
 
 // Пример ссылочных типов - 
 
-const obj1 = {day : 1, time : "22:00"};
+let obj1 = {day : 1, time : "22:00"};
 // переменная obj1 хранит не значчение а ссылку на объект
 const obj2 = obj1;
 // теперь и obj2 хранит ССЫЛКУ НА ЭТОТ ЖЕ ОБЪЕКТ !
@@ -62,6 +62,7 @@ const obj2 = obj1;
 obj1.day = 2;
 obj1.time = "14:00"
 
+obj1 = {day : 3, time : "00:00"}
 // Мы сейчас изменили ОБЪЕКТ. 
 // Но obj2 хранит в себе ссылку на этот же объек.
 
@@ -82,11 +83,21 @@ const log5 = () => {
 
 
 
+let f1 = (par : string) : string => {
+    return par + par;
+}
+const f2 = f1;
+
+f1 = (par : string) : string => {
+    return par + par + par;
+}
+
+
+
 
 
 /*
     Функции
-
 */
 
 // Сигнатура функции -
@@ -99,7 +110,7 @@ function
         // передаваемые параметры функции можно сколько угодно параметров от 0 до огромного количества
         (                                  ) 
             // Тип который вернет функция    void значит что ничего не вернет
-            : void      
+         : void      
          {
     ///// ТЕЛО ФУНКЦИИИ
 }
@@ -122,7 +133,7 @@ function callLogs () : void {
 //Если функция требует параметров - передаем их в скобках ровно в том же порядке как они указаны в объявлении функции
 
 // например -
-function calllogsByNumber(logNumber : number) : void {
+function callLogsByNumber(logNumber : number, par : string, fff? : boolean) : void {
     switch(logNumber) {
         case 1 : {
             log1();
@@ -159,11 +170,9 @@ const callMyName = (name : string) : string => {
     console.log(name);
     return "U'R goddamn right.";
 }
-
 // можно присвоить функцию как значение какой то переменной. Обязательно без круглых скобок, так как иначе это уже будет вызов
 
 let callMyName2 = callMyName;
-
 // Вот мы присваеваем в какую то переменную значение РЕЗУЛЬТАТА функции
 let frase : string = callMyName('HAIZENBERG!');
 
@@ -178,7 +187,7 @@ const log6 = () => {
     Локальная область - когда переменные объявляются в блоках
     В каждом блоке своя область видимости
 */
-
+// let var
 const log7 = () => {
 
     const var1 = "Область видимости для функции log7";
@@ -191,11 +200,12 @@ const log7 = () => {
         if (true) {
             const var1 = "А это другой блок";
             console.log(var1);
+            console.log(var2);
         }
+        console.log(var1); // "Область для текущего блока if"
     }
     // Те переменные, которые были в блоке ниже - невидимы для блока выше
     console.log(var1);
-
     // Переменную var2 нельзя вызвать из блока ниже
 
     // Та переменная, которая в одном фаиле, но вне блоков уже считается глобальной
@@ -208,8 +218,8 @@ const log7 = () => {
 const log8 = () => {
 
     let var1 : string;
-    // Если нам нужно переменную ВЫТАЩИТЬ ИЗ БЛОКА НИЖЕ то мы объявляем как let а не как константу
-    
+    // Если нам нужно переменную ВЫТАЩИТЬ ИЗ БЛОКА НИЖЕ 
+    // то мы объявляем как let а не как константу
     if (true) {
         var1 = "А тут можно уже ей присвоить значение"
         console.log(var1);
@@ -236,32 +246,56 @@ function fibonacci(n: number): number {
       return fibonacci(n - 1) + fibonacci(n - 2);
     }
 }
+// Нахождение факториала
+function factorial(n: number): number {
+    if (n === 0) {
+      return 1;
+    } else {
+      return n * factorial(n - 1);
+    }
+}
 
 
 
 
 // Функция как аргумент
+// Можно передавать как аргумент функцию и вызывать ее внутри функции
+
+function callBackExample(callback : (param : string)=>string, param1 : string ) : string {
+    // Какой то код    
+    let answer = callback(param1);
+    // Какой то код
+    // Возврат ответа
+    return answer;
+}
 
 
 /*
     Ошибки. Обработка ошибок
-
     в приложениях БУДУТ ошибки
     всегда. 
     могут, например, пользователи делать то чего им делать нельзя.
-    могут, например, не работать внешние сервисы, например АПИ сервиса или АПИ чужое может сломаться или база данных отвалиться
+    могут, например, не работать внешние сервисы, например АПИ сервиса 
+    или АПИ чужое может сломаться или база данных отвалиться
     ВСЕ потенциальные ошибки должны быть обработаны
 
     Для отлова потенциальной ошибки используют конструкцию
-    try {
-    } catch(e){
+    try 
+    {
+        ТЕЛО
+        Если здесь происходит какая то ошибка
+        то действие переходит в блок CATCH
+    } 
+    catch(e : any)
+    {
+        console.log(e);
     }
 
     либо 
 
     try{
     } catch(e){
-    } finaly{
+    } finally{
     }
 
 
@@ -270,14 +304,16 @@ function fibonacci(n: number): number {
 
 // Например ошибка деления на ноль. Самая стандартная ошибка в программировании
 function divide(a: number, b: number): number {
-    
     try {
         // Тело которое мы хотим выполнить
+        if (b === 0 || Number.isNaN(b)) {
+            throw new Error ("b is not number or zero");
+        }
         return a / b;
     } catch (error) {
         // Здесь мы выводим на консоль ошибку которая у нас произошла
-        console.error("Ошибка деления:", error);
-      return 0; // Возвращаем 0, если произошла ошибка
+        console.error("Ошибка деления:", error.toString());
+        return 0; // Возвращаем 0, если произошла ошибка
     }
   }
   
@@ -354,7 +390,7 @@ const registration = () : User => {
     const candidateUser = getUserFunction();
     // Теперь нужно проверить существует ли уже такой пользователь
     
-    if (candidateUser /* Объект приволится к boolean. Если объект равен undefined или null, тогда будет false */) {
+    if (candidateUser /* Объект приводится к boolean. Если объект равен undefined или null, тогда будет false */) {
         // Сюда попадаем если такой пользователь уже есть
         // Это противоречит логике нашего условного приложения.
         // Тогда бросаем ошибку 
@@ -372,8 +408,8 @@ export const controllerFunctionRegistration = () => {
         // В этом блоке у нас выполняется код
         // Если где то бросается ошибка, которая не обработанная раннее,
         // Тогда тело try перестает выполняться и переходит в блок catch
-        registration();
-        console.log("ЗАКОНЧИЛИ ВЫПОЛНЕНИЕ TRY");
+        const user = registration();
+        console.log("ЗАКОНЧИЛИ ВЫПОЛНЕНИЕ TRY", `имя : ${user.name}`);
     } catch(e)  {
         // e - это сама ошибка которую впоймали.
         console.log(JSON.stringify(e,null,2));
@@ -434,28 +470,45 @@ let thirthUser = userMassive1[2]; // Тут выбросит ошибку     in
 - shift(): T | undefined
     Добавляет один или несколько элементов в начала ммассива и возвращает новую длину массива
 - unshift(...elements: T[]): number
+
 - splice(start: number, deleteCount?: number): T[]
+
 - splice(start: number, deleteCount: number, ...items: T[]): T[]
+
 - sort(compareFn?: (a: T, b: T) => number): this
+
 - reverse(): this
+
 - fill(value: T, start?: number, end?: number): this
 
 Доступ к данным:
+
 - indexOf(searchElement: T, fromIndex?: number): number
+
 - lastIndexOf(searchElement: T, fromIndex?: number): number
+
 - includes(searchElement: T, fromIndex?: number): boolean
 
 Создание новых массивов:
+
 - slice(start?: number, end?: number): T[]
+
 - concat(...items: (T | ConcatArray<T>)[]): T[]
+
 - flat(depth?: number): T[]
 
 Дополнительные методы:
+
 - forEach(callbackfn: (value: T, index: number, array: T[]) => void): void
+
 - map(callbackfn: (value: T, index: number, array: T[]) => U): U[]
+
 - filter(callbackfn: (value: T, index: number, array: T[]) => boolean): T[]
+
 - reduce(callbackfn: (previousValue: U, currentValue: T, currentIndex: number, array: T[]) => U, initialValue?: U): U
+
 - some(callbackfn: (value: T, index: number, array: T[]) => boolean): boolean
+
 - every(callbackfn: (value: T, index: number, array: T[]) => boolean): boolean
 
 Свойства:

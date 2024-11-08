@@ -17,6 +17,7 @@ export function enterData() {
     const parametr1 = Number(data.split(" ")[0]);
     const operation = data.split(" ")[1];
     const parametr2 = Number(data.split(" ")[2]);
+    
     //
       // BODY
     // 
