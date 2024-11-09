@@ -1,8 +1,3 @@
-
-/*
-    ПРАКТИКА - пишем консольное приложение 
-*/
-
 import readline from 'readline';
 import * as dotenv from "dotenv";
 dotenv.config();

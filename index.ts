@@ -118,5 +118,5 @@ const p2 = new NiggativePerson("BILL", 33);
 
 
 
-import {enterData} from "./activity/4/activity4";
-enterData()
+import {start} from "./TextRpg/src/presentation/console/bootstrap";
+start()
