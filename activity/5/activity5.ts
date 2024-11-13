@@ -1,5 +1,4 @@
 export const startActivity5 = () => {
-
 }
 
 
@@ -253,7 +252,7 @@ function factorial(n: number): number {
     } else {
       return n * factorial(n - 1);
     }
-}
+3}
 
 
 
@@ -470,49 +469,102 @@ let thirthUser = userMassive1[2]; // Тут выбросит ошибку     in
 - shift(): T | undefined
     Добавляет один или несколько элементов в начала ммассива и возвращает новую длину массива
 - unshift(...elements: T[]): number
-
+    Удаление части массива.  start - индекс с которого начать удаление. deleteCount-количество элементов под удаление
+    Важно - это создает новый массив (и ссылку на него)
 - splice(start: number, deleteCount?: number): T[]
-
+    Удаление части массива. + вставка в конец
 - splice(start: number, deleteCount: number, ...items: T[]): T[]
+    В функцию передаем callback с порядком сортировки
+     * Параметры:
+    * a: Первый элемент для сравнения.
+    * b: Второй элемент для сравнения.
 
+  * Возвращаемое значение:
+    * -1: a должен идти перед b.
+    * 0: a и b равны.
+    * 1: a должен идти после b.
 - sort(compareFn?: (a: T, b: T) => number): this
-
+    Массив будет развернут задом наперед
 - reverse(): this
 
-- fill(value: T, start?: number, end?: number): this
-
 Доступ к данным:
-
+  Получить индекс массива. 1 - элемент который ищем 2 - С какого индекса искать
 - indexOf(searchElement: T, fromIndex?: number): number
-
+  Тоже самое только с конца
 - lastIndexOf(searchElement: T, fromIndex?: number): number
-
+    Проверить, включает ли массив элемент
 - includes(searchElement: T, fromIndex?: number): boolean
 
 Создание новых массивов:
-
+    создать новый массив из элеменов старого от определеного индекса и до определенного индекса
 - slice(start?: number, end?: number): T[]
-
+    слаживает несколько массивов в один
 - concat(...items: (T | ConcatArray<T>)[]): T[]
 
-- flat(depth?: number): T[]
-
 Дополнительные методы:
-
+    Перебор массива.
 - forEach(callbackfn: (value: T, index: number, array: T[]) => void): void
-
+    Из старого массива создаем новый массив. 
 - map(callbackfn: (value: T, index: number, array: T[]) => U): U[]
-
+    Отфильтровать массив по определенным правилам
 - filter(callbackfn: (value: T, index: number, array: T[]) => boolean): T[]
-
-- reduce(callbackfn: (previousValue: U, currentValue: T, currentIndex: number, array: T[]) => U, initialValue?: U): U
-
+    Содержит ли массив определенный элемент соответствубщий правилу в коллбеке
 - some(callbackfn: (value: T, index: number, array: T[]) => boolean): boolean
-
+    Все ли элементы массива соответствуют правилу в коллбеке
 - every(callbackfn: (value: T, index: number, array: T[]) => boolean): boolean
 
 Свойства:
 - length: number 
+
+
+Самое важное свойства массива - длина массива (letnth)
+Оно показывает текущую длину массива
+*/
+
+// Добавление в текущий массив 
+massive1.push(10,9,8,7);   // Массив будет - [ 1 , 2 , 3 , 4 , 10 , 9 , 8 , 7 ];
+
+// тут внимательно. Полученные элементы будут удалены из массива
+const lastElement = massive1.pop(); // вернет 10, а массив станет [ 1 , 2 , 3, 4 , 10 , 9 , 8 ]
+const firstElement = massive1.shift() // вернет 1, а массив станет [ 2, 3 , 4 , 10 , 9 ]
+
+massive1.sort ((firstNumber, seckondNumber)=> {
+    if (firstNumber < seckondNumber) {
+        return -1;
+    } else {
+        return 1;
+    }
+});   // Массив отсортирован по возрастанию, стал - [ 2 , 3 , 4 , 9 , 10 ]
+
+// АНАЛОГИЧНО
+const sortFunction = (a : number, b : number) => {
+
+}
+
+
+massive1.reverse(); // Массив реверсирован, стал [ 10, 9 , 4 , 3 , 2 ]
+const elementIndex = massive1.indexOf(10); // индекс этого елемента - 0
+const elementIndex2 = massive1.indexOf(4); // индекс этого елемента - 1
+
+
+// Включает ли
+const isIncludeOne = massive1.includes(1); // false - массив не содержит элемента равного 1
+const isIncludeTen = massive1.includes(10); // true - массив содержит элемента равной 10
+/*
+massive1.forEach (   )
+
+
+forEach(callbackfn: (value: T, index: number, array: T[]) => void): void
+    Из старого массива создаем новый массив. 
+- map(callbackfn: (value: T, index: number, array: T[]) => U): U[]
+    Отфильтровать массив по определенным правилам
+- filter(callbackfn: (value: T, index: number, array: T[]) => boolean): T[]
+    Содержит ли массив определенный элемент соответствубщий правилу в коллбеке
+- some(callbackfn: (value: T, index: number, array: T[]) => boolean): boolean
+    Все ли элементы массива соответствуют правилу в коллбеке
+- every(callbackfn: (value: T, index: number, array: T[]) => boolean): boolean
+
+
 */
 
 
