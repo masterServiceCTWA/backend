@@ -1,8 +1,5 @@
 export const startActivity5 = () => {
 }
-
-
-
 /*
     Ссылочные типы и типы значения
 
@@ -82,6 +79,7 @@ const log5 = () => {
 
 
 
+
 let f1 = (par : string) : string => {
     return par + par;
 }
@@ -125,7 +123,6 @@ function callLogs () : void {
     log5();
     // Сейчас мы просто обратились к другим функциям и вызвали их
 }
-
 
 // Вызов функции -
 // Пишем имя функции или переменной в которой она хранится и ОБЯЗАТЕЛЬНО круглыые скобки (). 
@@ -187,6 +184,7 @@ const log6 = () => {
     В каждом блоке своя область видимости
 */
 // let var
+
 const log7 = () => {
 
     const var1 = "Область видимости для функции log7";
@@ -194,19 +192,20 @@ const log7 = () => {
     if (true) {
         // МОЖНО создать переменную даже если в блоке выше есть одноименная переменная
         const var1 = "Область для текущего блока if"
-        console.log(var1);
+        console.log(var1);  // Выведется - "Область для текущего блока if"
         const var2 = "eee"
         if (true) {
             const var1 = "А это другой блок";
-            console.log(var1);
-            console.log(var2);
+            console.log(var1); // Выведется - "А это другой блок"
+            console.log(var2); // Выведется - "еее"
+            console.log(frase);
         }
         console.log(var1); // "Область для текущего блока if"
     }
     // Те переменные, которые были в блоке ниже - невидимы для блока выше
     console.log(var1);
     // Переменную var2 нельзя вызвать из блока ниже
-
+    // console.log(var2);
     // Та переменная, которая в одном фаиле, но вне блоков уже считается глобальной
     // Ей можно пользоваться в блоке
     console.log(frase);
@@ -245,6 +244,7 @@ function fibonacci(n: number): number {
       return fibonacci(n - 1) + fibonacci(n - 2);
     }
 }
+
 // Нахождение факториала
 function factorial(n: number): number {
     if (n === 0) {
@@ -267,6 +267,9 @@ function callBackExample(callback : (param : string)=>string, param1 : string ) 
     // Возврат ответа
     return answer;
 }
+
+let ex = callBackExample( (param : string) => { return param + param  }, "hi"); // Результат функции будет "hihi";
+let ex1 = callBackExample( callMyName, "HHHH");  //  "U'R goddamn right."
 
 
 /*
