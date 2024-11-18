@@ -1,2 +1,2 @@
-import {start} from "./TextRpg/src/presentation/console/bootstrap";
+import {start} from "./src/presentation/express/bootstrap";
 start();
