@@ -1,7 +1,7 @@
 import { v4 } from "uuid";
 import { Account } from "../../domain/account";
 import { IAccountRepository } from "../interfaces/IAccountRepository";
-import { LinkedList, LinkedListNode } from "../../../activity/7/activity7";
+import { LinkedList, LinkedListNode } from "../../../activity/8/activity8";
 
 export class AccountLocalLLRepository implements IAccountRepository {
     
@@ -41,6 +41,10 @@ export class AccountLocalLLRepository implements IAccountRepository {
     }
 
     delete(id: string): void {
+        const existingAcocunt = this.getById(id);
+        if (!existingAcocunt) {
+            throw new Error(`Аккаунт с id ${id} не найден`);
+        }
         const newStorage = AccountLocalLLRepository.storage.filter(
             (element) => {
                 if (element.value.id !== id) {
@@ -62,6 +66,18 @@ export class AccountLocalLLRepository implements IAccountRepository {
         return acc;
     }
 
+
     
+    private getById(id: string) : Account {
+        const findetAccount = AccountLocalLLRepository.storage.find( (element)=> 
+            { 
+                if (element.value.id === id) 
+                {
+                    return true;
+                }
+            }
+        );   
+        return findetAccount.value;
+    }
 
 }
