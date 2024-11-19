@@ -1,9 +1,10 @@
 import express, { Request, Response } from "express";
 import { AccountLocalRepository } from "../../app/repository/AccountRepository";
 import { AccountController } from "./controllers/AccountController";
+import { AccountLocalLLRepository } from "../../app/repository/AccountLLRepository";
 
 
-const accountRepository = new AccountLocalRepository();
+const accountRepository = new AccountLocalLLRepository();
 const accountController = new AccountController(accountRepository);
 
 const PORT = 3000;
