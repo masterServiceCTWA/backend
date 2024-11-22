@@ -343,7 +343,33 @@ const l413 : boolean = 3 < 1 || 4 < 1 // Один меньше трех или �
 
 
 
+/*
+    Миддлевейры
+    
+    beforeMiddleware
+    rateLimitMiddleware
+    userIpMiddleware
+    identityMiddleware
+    banMiddleware
+    errorMiddleware
+*/
 
+/*
+    Promise. async/await
+*/
+
+/*
+    Декораторы
+*/
+
+/*
+    SQL postgress. обзор
+*/
+
+/*
+    ORM.
+    typeorm/sequelize. обзор
+*/
 
 /*
     .env
@@ -360,17 +386,13 @@ const l413 : boolean = 3 < 1 || 4 < 1 // Один меньше трех или �
     Наследование, инкапсуляция, полиморфизм
 */
 
-/*
-    Promise. async/await
-*/
 
 
 
 
 
-/*
-    Декораторы
-*/
+
+
 
 /* 
     События
@@ -393,14 +415,7 @@ const l413 : boolean = 3 < 1 || 4 < 1 // Один меньше трех или �
 */
 
 
-/*
-    SQL postgress. обзор
-*/
 
-/*
-    ORM.
-    typeorm/sequelize. обзор
-*/
 
 
 

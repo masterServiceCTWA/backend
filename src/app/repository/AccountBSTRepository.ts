@@ -1,14 +1,16 @@
 import { v4 } from "uuid";
+import { BinarySearchTree, BinarySearchTreeNode } from "../../../activity/8/activity8";
 import { Account } from "../../domain/account";
 import { IAccountRepository } from "../interfaces/IAccountRepository";
-import { LinkedList, LinkedListNode } from "../../../activity/8/activity8";
+import { ExtendetAccount } from "./extendetAccount";
 
-export class AccountLocalLLRepository implements IAccountRepository {
-    
-    private static storage : LinkedList<Account> = new LinkedList();
+
+
+export class AccountLocalBSTRepository implements IAccountRepository {
+    static storage : BinarySearchTree<ExtendetAccount> = new BinarySearchTree();
     
     get(chatId: string): Account {
-        const findetAccount = AccountLocalLLRepository.storage.find( (element)=> 
+        const findetAccount = AccountLocalBSTRepository.storage.find( (element)=> 
             { 
                 if (element.value.chatId === chatId) 
                 {
@@ -20,7 +22,7 @@ export class AccountLocalLLRepository implements IAccountRepository {
     }
 
     getAll(): Account[] {
-        const accountMassive : Account[] = AccountLocalLLRepository.storage.map<Account>( 
+        const accountMassive : Account[] = AccountLocalBSTRepository.storage.map<Account>( 
             (element) => {
                 return element.value;
             }      
@@ -34,9 +36,10 @@ export class AccountLocalLLRepository implements IAccountRepository {
             userName : userName,
             id : v4()
         }
-        const newNode = new LinkedListNode<Account>();
-        newNode.value = newAccount;
-        AccountLocalLLRepository.storage.push(newNode);
+        const newNode = new BinarySearchTreeNode<ExtendetAccount>();
+        const newExtendetAccount = new ExtendetAccount(newAccount);
+        newNode.value = newExtendetAccount;
+        AccountLocalBSTRepository.storage.push(newNode);
         return newAccount;
     }
 
@@ -45,31 +48,32 @@ export class AccountLocalLLRepository implements IAccountRepository {
         if (!existingAcocunt) {
             throw new Error(`Аккаунт с id ${id} не найден`);
         }
-        const newStorage = AccountLocalLLRepository.storage.filter(
-            (element : LinkedListNode<Account>) => {
+        const newStorage = AccountLocalBSTRepository.storage.filter(
+            (element) => {
                 if (element.value.id !== id) {
                     return true;
                 }
                     return false;
             }
         );
-        AccountLocalLLRepository.storage = newStorage;
+        AccountLocalBSTRepository.storage = newStorage;
     }
 
     update(chatId: string, useName: string): Account {
         const acc = this.get(chatId);
         acc.userName = useName;
         this.delete(acc.id);
-        const newNode = new LinkedListNode<Account>();
-        newNode.value = acc;
-        AccountLocalLLRepository.storage.push(newNode);
+        const newNode = new BinarySearchTreeNode<ExtendetAccount>();
+        const newExtendetAccount = new ExtendetAccount(acc);
+        newNode.value = newExtendetAccount;
+        AccountLocalBSTRepository.storage.push(newNode);
         return acc;
     }
 
 
     
     private getById(id: string) : Account {
-        const findetAccount = AccountLocalLLRepository.storage.find( (element)=> 
+        const findetAccount = AccountLocalBSTRepository.storage.find( (element)=> 
             { 
                 if (element.value.id === id) 
                 {

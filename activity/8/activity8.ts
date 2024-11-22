@@ -27,7 +27,7 @@ interface IDataStructure<ValueType extends ValueTypeInterface, ValueTypeInterfac
 
 /*
     Связный список
-    Linked List
+    Linked List (LL)
 */
 
 // Конкретная реализация узла. Но все равно мы оставляем возможность добавлять в значение любой тип
@@ -40,9 +40,23 @@ export class LinkedListNode<ValueType> implements IDataStructureNode<ValueType> 
 
 
 export class LinkedList<ValueType> implements IDataStructure<ValueType> {
-    
-    
-    
+   
+    // Ссылка на первый элемент структуры. Он всегда должен быть известен. Если он есть
+    private head: LinkedListNode<ValueType> | null;
+ 
+    push(node: LinkedListNode<ValueType>): void {
+        if (!this.head) {
+            this.head = node;
+        } else {
+            let current = this.head;
+            while (current.next) {
+                current = current.next;
+            }
+            current.next = node;
+        }
+    }
+
+
     foreach(callback: (node: LinkedListNode<ValueType>) => void): void {
         let current = this.head;
         while (current) {
@@ -63,20 +77,7 @@ export class LinkedList<ValueType> implements IDataStructure<ValueType> {
         return filteredList;
     }
    
-    // Ссылка на первый элемент структуры. Он всегда должен быть известен. Если он есть
-    private head: LinkedListNode<ValueType> | null;
-
-    push(node: LinkedListNode<ValueType>): void {
-        if (!this.head) {
-            this.head = node;
-        } else {
-            let current = this.head;
-            while (current.next) {
-                current = current.next;
-            }
-            current.next = node;
-        }
-    }
+    
 
     map<NewType>(callback: (node: LinkedListNode<ValueType>) => NewType): NewType[] {
         let result: NewType[] = [];
@@ -88,9 +89,7 @@ export class LinkedList<ValueType> implements IDataStructure<ValueType> {
         return result;
     }
 
-    
-
-    find(callback: (node: LinkedListNode<ValueType>) => boolean): LinkedListNode<ValueType> | undefined {
+    find(callback: (node: LinkedListNode<ValueType>) => boolean): LinkedListNode<ValueType> {
         let current = this.head;
         while (current) {
             if (callback(current)) {
@@ -98,7 +97,7 @@ export class LinkedList<ValueType> implements IDataStructure<ValueType> {
             }
             current = current.next;
         }
-        return undefined;
+        return null;
     }
 
 }
@@ -109,9 +108,147 @@ export class LinkedList<ValueType> implements IDataStructure<ValueType> {
 
 
 
+/*
+    Бинарное дерево поиска
+    Binary Search tree (BST)
+*/
 
-
-
-interface IComparable {
-    compare(compareObject : IComparable, compareSubject : IComparable) : boolean;
+// Интерфейс с методом сравнения. Узел дерева должен соответствовать этому интерфейсу
+export interface IComparable {
+    compare(compareObject: IComparable, compareSubject: IComparable): boolean;
 }
+
+// Конкретная реализация узла дерева.
+export class BinarySearchTreeNode<ValueType extends IComparable> implements IDataStructureNode<ValueType, IComparable> {
+    value: ValueType;
+    left? : BinarySearchTreeNode<ValueType>;
+    right? : BinarySearchTreeNode<ValueType>;
+    parent: BinarySearchTreeNode<ValueType>;
+}
+
+
+export class BinarySearchTree<ValueType extends IComparable> implements IDataStructure<ValueType, IComparable> {
+    root: BinarySearchTreeNode<ValueType> | null;
+
+    constructor() {
+        this.root = null;
+    }
+
+    push(node: BinarySearchTreeNode<ValueType>): void {
+        if (!this.root) {
+            this.root = node as BinarySearchTreeNode<ValueType>;
+            return;
+        }
+
+        let currentNode = this.root;
+        while (true) {
+            if (node.value.compare(currentNode.value, node.value)) {
+                if (!currentNode.left) {
+                    currentNode.left = node as BinarySearchTreeNode<ValueType>;
+                    (node as BinarySearchTreeNode<ValueType>).parent = currentNode;
+                    return;
+                } else {
+                    currentNode = currentNode.left;
+                }
+            } else {
+                if (!currentNode.right) {
+                    currentNode.right = node as BinarySearchTreeNode<ValueType>;
+                    (node as BinarySearchTreeNode<ValueType>).parent = currentNode;
+                    return;
+                } else {
+                    currentNode = currentNode.right;
+                }
+            }
+        }
+    }
+
+    map<N>(callback: (node: BinarySearchTreeNode<ValueType>) => N): N[] {
+        const result: N[] = [];
+        this._map(this.root, callback, result);
+        return result;
+    }
+
+    private _map<N>(node: BinarySearchTreeNode<ValueType> | null, callback: (node: IDataStructureNode<ValueType, IComparable>) => N, result: N[]): void {
+        if (!node) {
+            return;
+        }
+
+        result.push(callback(node));
+        this._map(node.left, callback, result);
+        this._map(node.right, callback, result);
+    }
+
+    foreach(callback: (node: BinarySearchTreeNode<ValueType>) => void): void {
+        this._foreach(this.root, callback);
+    }
+
+    private _foreach(
+            node: BinarySearchTreeNode<ValueType> | null, 
+            callback: (node: BinarySearchTreeNode<ValueType>) => void) : void {
+        if (!node) {
+            return;
+        }
+        callback(node);
+        this._foreach(node.left, callback);
+        this._foreach(node.right, callback);
+    }
+
+    find( callback: (node: BinarySearchTreeNode<ValueType>) => boolean ): BinarySearchTreeNode<ValueType> {
+        let currentNode = this.root;
+        return this._find(currentNode, callback);
+    }
+
+    private _find(
+        node: BinarySearchTreeNode<ValueType>, 
+        callback: (node: BinarySearchTreeNode<ValueType>) => boolean) : BinarySearchTreeNode<ValueType> {
+        if (callback(node)) {
+            return node;
+        }  else {
+            if (node.left) {
+                const nodeAnswer = this._find(node.left, callback);
+                if (nodeAnswer) {
+                    return nodeAnswer;
+                }
+            }
+            if (node.right) {
+                const nodeAnswer = this._find(node.right, callback);
+                if (nodeAnswer) {
+                    return nodeAnswer;
+                }
+            }
+            if (!node.left && !node.right) {
+                return null;
+            }
+        }
+    }
+
+    filter(callback: (node: IDataStructureNode<ValueType, IComparable>) => boolean): BinarySearchTree<ValueType> {
+        const newTree = new BinarySearchTree<ValueType>();
+        this._filter(this.root, callback, newTree);
+        return newTree;
+    }
+
+    private _filter(
+            node: BinarySearchTreeNode<ValueType> | null, 
+            callback: (node: IDataStructureNode<ValueType, IComparable>) => boolean, 
+            newTree: BinarySearchTree<ValueType>): void {
+        if (!node) {
+            return;
+        }
+
+        if (callback(node)) {
+            newTree.push(node);
+        }
+
+        this._filter(node.left, callback, newTree);
+        this._filter(node.right, callback, newTree);
+    }
+}
+
+
+
+
+
+
+
+
