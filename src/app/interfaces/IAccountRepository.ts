@@ -1,9 +1,12 @@
 import { Account } from "../../domain/account";
 
+
+
+
 export interface IAccountRepository {
-    create(chatId : string, userName : string) : Account ;
-    getAll() : Account[];
     get(chatId : string) : Account;
-    delete (chatId : string) : void;
+    getAll() : Account[];
+    create(chatId : string, userName : string) : Account;
     update(chatId : string, userName : string) : Account;
+    delete(id : string) : void;
 }

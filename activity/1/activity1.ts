@@ -344,19 +344,39 @@ const l413 : boolean = 3 < 1 || 4 < 1 // Один меньше трех или �
 
 
 /*
-    Объекты
+    Миддлевейры
+    
+    beforeMiddleware
+    rateLimitMiddleware
+    userIpMiddleware
+    identityMiddleware
+    banMiddleware
+    errorMiddleware
 */
 
 /*
-    Встроенные в node.js объекты
+    Promise. async/await
 */
 
 /*
-    JSON
+    Декораторы
+*/
+
+/*
+    SQL postgress. обзор
+*/
+
+/*
+    ORM.
+    typeorm/sequelize. обзор
 */
 
 /*
     .env
+*/
+
+/*
+    Настройка typescript
 */
 
 
@@ -367,24 +387,12 @@ const l413 : boolean = 3 < 1 || 4 < 1 // Один меньше трех или �
 */
 
 
-/*
-    Практика. Напишем консольную игру.
-*/
-
-
-/*
-    Promise. async/await
-*/
-
-/*
-    Настройка typescript
-*/
 
 
 
-/*
-    Декораторы
-*/
+
+
+
 
 /* 
     События
@@ -407,14 +415,7 @@ const l413 : boolean = 3 < 1 || 4 < 1 // Один меньше трех или �
 */
 
 
-/*
-    SQL postgress. обзор
-*/
 
-/*
-    ORM.
-    typeorm/sequelize. обзор
-*/
 
 
 

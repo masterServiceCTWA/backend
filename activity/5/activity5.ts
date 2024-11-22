@@ -504,9 +504,9 @@ let thirthUser = userMassive1[2]; // Тут выбросит ошибку     in
 Дополнительные методы:
     Перебор массива.
 - forEach(callbackfn: (value: T, index: number, array: T[]) => void): void
-    Из старого массива создаем новый массив. 
+    Из старого массива создаем новый массив. Приэтом созлается и новый тип массива. 
 - map(callbackfn: (value: T, index: number, array: T[]) => U): U[]
-    Отфильтровать массив по определенным правилам
+    Отфильтровать массив по определенным правилам. Возвращает новый массив
 - filter(callbackfn: (value: T, index: number, array: T[]) => boolean): T[]
     Содержит ли массив определенный элемент соответствубщий правилу в коллбеке
 - some(callbackfn: (value: T, index: number, array: T[]) => boolean): boolean
@@ -538,9 +538,14 @@ massive1.sort ((firstNumber, seckondNumber)=> {
 
 // АНАЛОГИЧНО
 const sortFunction = (a : number, b : number) => {
-
+    if (a < b) {
+        return -1;
+    } else {
+        return 1;
+    }   
 }
-
+// Передаем в качестве параметра функции ЗНАЧЕНИЕ массива
+massive1.sort(sortFunction);
 
 massive1.reverse(); // Массив реверсирован, стал [ 10, 9 , 4 , 3 , 2 ]
 const elementIndex = massive1.indexOf(10); // индекс этого елемента - 0
@@ -550,24 +555,91 @@ const elementIndex2 = massive1.indexOf(4); // индекс этого елеме
 // Включает ли
 const isIncludeOne = massive1.includes(1); // false - массив не содержит элемента равного 1
 const isIncludeTen = massive1.includes(10); // true - массив содержит элемента равной 10
-/*
-massive1.forEach (   )
 
 
-forEach(callbackfn: (value: T, index: number, array: T[]) => void): void
-    Из старого массива создаем новый массив. 
-- map(callbackfn: (value: T, index: number, array: T[]) => U): U[]
-    Отфильтровать массив по определенным правилам
-- filter(callbackfn: (value: T, index: number, array: T[]) => boolean): T[]
-    Содержит ли массив определенный элемент соответствубщий правилу в коллбеке
-- some(callbackfn: (value: T, index: number, array: T[]) => boolean): boolean
-    Все ли элементы массива соответствуют правилу в коллбеке
-- every(callbackfn: (value: T, index: number, array: T[]) => boolean): boolean
+
+let allElementsSum = 0;
+// Этот метод переберет весь массив. На каждый элемент будет вызвана передаваемая в аргумент функция
+massive1.forEach ( 
+    // В качестве арумента передаем элемент массива
+    (element) => {
+        // Эта функция ничего не возвращает и недолжна
+        allElementsSum = allElementsSum + element;
+        if (element % 2 === 0) {
+            console.log(` ${element} - четное число`);
+        } else {
+            console.log(` ${element} - нечетное число`);     
+        }
+    });
+
+class ObjectNumber {
+    constructor (value : number) {
+        this.value = value;
+    }
+    value : number;
+}    
+// Так же map переберет весь массив но на выходе получится новый массив
+const newObjectMassive : ObjectNumber[] = massive1.map(
+    (element) => {
+        return new ObjectNumber(element)
+    }
+);
 
 
-*/
+// Отфильтруем массив. Уберем все нечетные числа
+const filtredMassive = massive1.filter(
+    // Если функция вернет true, тогда элемент добавится в новый массив.
+    // Если false то не добавится
+    (element)=> {
+    if (element%2 === 0) {
+        return true;
+    } 
+        return false;
+});
 
+// Проверка - соответствует ли хотя бы один элемент массива правилу (правило содержится в функции)
+const isContainTen = massive1.some((element)=>
+    {
+        if (element === 10) {
+            return true;
+        } else {
+            return false;
+        }
+    });
+
+// Проверка - соответствуют ли все элементы массива правилу (правило содержится в функции)
+// Если хоть один элемент несоответвует правилу (функция, которая передается в качестве аргумента), тогда вернет false
+
+// Проверим что все элементы массива четные числа
+const isEvenNumbers = massive1.every(
+    (element) => {
+        if (element % 2 === 0) {
+            return true;
+        } else 
+            return false;
+    }
+);
 
 /*
     Циклы
 */
+
+
+// ЦИКЛ FOR                Если тут true продолжаем выполнение, false - выходим
+//     стартовые параметры       Условие выхода из цикла     Изменения, которые происходят после каждого выполнения тела
+for (     let i = 0          ;       i <= 10               ;     i + 1                               )    {
+//    Переменные в стартовых параметрах будут видимы только в теле цикла
+
+    /// ТЕЛО ЦИКЛА. Выполняется каждый раз
+    console.log(i);
+}
+
+
+let i = 0;
+        // Условие при котором цикл выполнится. Если true - цикл выполнится, false - прекратит выполнение
+while (       i <= 10       )     {
+    // ТЕЛО ЦИКЛА
+    console.log(i);
+    // Меняем переменную, чтобы цикл не стал вечным
+    i = i + 1;
+}

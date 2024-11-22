@@ -1,0 +1,12 @@
+{  
+    "stringField" : "Строковое поле",
+    "NumberField" : 123,
+    "BooleanFeild" : true,
+    "ObjectField" : {
+        "objectField1" : 1,
+        "objectField2" : "fff"
+    },
+    "MassiveField" : [
+        1,2,3,4,true,"string", {"objField" : "fff"}
+    ]
+}
